@@ -26,6 +26,19 @@
   #define g_new(t,n)     ((t*)malloc(sizeof(t)*(n)))
   #define g_new0(t,n)    ((t*)calloc((n), sizeof(t)))
   #define g_realloc(p,n) realloc(p, n)
+  /* g_strdup_printf: used in gcin-settings.cpp for UI color strings; result not needed in core build */
+  static inline char *g_strdup_printf(const char *fmt, ...) {
+    char buf[1024]; va_list ap; va_start(ap,fmt); vsnprintf(buf,sizeof(buf),fmt,ap); va_end(ap); return strdup(buf);
+  }
+  /* _(): gettext translation macro — identity in core build */
+  #define _(x) (x)
+  /* GLib types used by locale.cpp's Big5 conversion block */
+  typedef void   GError;
+  typedef size_t gsize;
+  /* g_locale_from_utf8: Big5 conversion — not needed in core build; return strdup copy */
+  static inline char *g_locale_from_utf8(const char *s, int l, gsize *rn, gsize *wn, GError **e) {
+    (void)l; (void)rn; (void)wn; (void)e; return strdup(s);
+  }
   /* g_markup_escape_text: used in gtab.cpp:htmlspecialchars; no escaping needed in core build */
   static inline char *g_markup_escape_text(const char *s, int len) { (void)len; return strdup(s); }
   /* XK_* key symbols used by feedkey_gtab / feedkey_pho */
@@ -65,8 +78,30 @@
   #define XK_KP_Subtract 0xffad
   #define XK_KP_Decimal  0xffae
   #define XK_KP_Divide   0xffaf
+  #define XK_KP_Insert   0xff9e
+  #define XK_KP_Begin    0xff9d
   #define XK_KP_0        0xffb0
+  #define XK_KP_1        0xffb1
+  #define XK_KP_2        0xffb2
+  #define XK_KP_3        0xffb3
+  #define XK_KP_4        0xffb4
+  #define XK_KP_5        0xffb5
+  #define XK_KP_6        0xffb6
+  #define XK_KP_7        0xffb7
+  #define XK_KP_8        0xffb8
   #define XK_KP_9        0xffb9
+  #define XK_F1          0xffbe
+  #define XK_F2          0xffbf
+  #define XK_F3          0xffc0
+  #define XK_F4          0xffc1
+  #define XK_F5          0xffc2
+  #define XK_F6          0xffc3
+  #define XK_F7          0xffc4
+  #define XK_F8          0xffc5
+  #define XK_F9          0xffc6
+  #define XK_F10         0xffc7
+  #define XK_F11         0xffc8
+  #define XK_F12         0xffc9
   #define ShiftMask      (1<<0)
   #define LockMask       (1<<1)
   #define ControlMask    (1<<2)
