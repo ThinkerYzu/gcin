@@ -12,6 +12,7 @@
   typedef long long     gint64;
   typedef unsigned long KeySym;
   typedef void          GtkWidget;
+  typedef void          Display;     /* phoa2d/tsa2d32 forward-declare send_gcin_message(Display*) */
   typedef char          unich_t;
   #define TRUE  1
   #define FALSE 0
@@ -19,6 +20,7 @@
   #define UNIX  1
   #define GTK_CHECK_VERSION(a,b,c) 0
   #define GTK_WIDGET_VISIBLE(w) (0)
+  #define GDK_DISPLAY() ((Display*)0)
   #define g_malloc(n)    malloc(n)
   #define g_malloc0(n)   calloc(1, n)
   #define g_free(p)      free(p)
