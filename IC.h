@@ -26,7 +26,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
   Author: Hidetoshi Tajima(tajima@Eng.Sun.COM) Sun Microsystems, Inc.
 
 ******************************************************************/
-#if UNIX
+#if UNIX && !defined(GCIN_CORE_BUILD)
 typedef struct {
     XRectangle	area;		/* area */
     XRectangle	area_needed;	/* area needed */
@@ -53,8 +53,10 @@ typedef struct {
 #endif
 
 typedef struct {
+#ifndef GCIN_CORE_BUILD
     Window	client_win;	/* client window */
     INT32	input_style;	/* input style */
+#endif
     GCIN_STATE_E im_state;
     gboolean    b_half_full_char;
     gboolean    fixed_pos;
@@ -64,13 +66,16 @@ typedef struct {
     gboolean    tsin_pho_mode;
     short       fixed_x, fixed_y;
     short       in_method;
+#ifndef GCIN_CORE_BUILD
     XPoint	spot_location;	/* spot location, relative to client window */
+#endif
 #if USE_XIM
     gboolean xim_preedit_started;
 #endif
 } ClientState;
 
 
+#ifndef GCIN_CORE_BUILD
 typedef struct _IC {
 #if USE_XIM
     CARD16	id;		/* ic id */
@@ -96,3 +101,4 @@ typedef struct {
 } DUAL_XIM_ENTRY;
 
 Window get_ic_win(IC *rec);
+#endif

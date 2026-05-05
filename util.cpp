@@ -23,6 +23,7 @@ void p_err(char *fmt,...)
   if (getenv("NO_GTK_INIT"))
     fprintf(stderr, "%s\n", out);
   else {
+#ifndef GCIN_CORE_BUILD
     GtkWidget *dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
                                      GTK_MESSAGE_ERROR,
                                      GTK_BUTTONS_CLOSE,
@@ -30,6 +31,9 @@ void p_err(char *fmt,...)
 
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
+#else
+    fprintf(stderr, "%s\n", out);
+#endif
   }
 #endif
 
@@ -358,7 +362,7 @@ void win32_init_win(GtkWidget *win)
 #endif
 #endif
 
-#if !GCIN_IME && !CLIENT_LIB
+#if !GCIN_IME && !CLIENT_LIB && !GCIN_CORE_BUILD
 void box_warn(char *fmt,...)
 {
   va_list args;

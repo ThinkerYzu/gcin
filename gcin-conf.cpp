@@ -1,8 +1,12 @@
+#ifndef GCIN_CORE_BUILD
 #include "os-dep.h"
+#endif
 #include "gcin.h"
-#if UNIX
+#if UNIX && !defined(GCIN_CORE_BUILD)
 #include <dirent.h>
 #include <X11/Xatom.h>
+#elif UNIX
+#include <dirent.h>
 #else
 #include <shellapi.h>
 #include <shlobj.h>
@@ -186,6 +190,7 @@ char *get_gcin_xim_name()
   return "gcin";
 }
 
+#ifndef GCIN_CORE_BUILD
 Atom get_gcin_atom(Display *dpy)
 {
   char *xim_name = get_gcin_xim_name();
@@ -197,4 +202,5 @@ Atom get_gcin_atom(Display *dpy)
 
   return atom;
 }
+#endif
 #endif
